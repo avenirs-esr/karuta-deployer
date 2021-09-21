@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
+    }
+}
+
+subprojects {
+    apply plugin: 'waroverlay'
+    apply plugin: org.esco.script.gradle.plugins.GradleTomcatDeployPlugin
+
+    task allDeps(type: DependencyReportTask) {}
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://nexus.recia.fr/repository/releases/"
+        }
+        maven {
+            url "https://nexus.recia.fr/repository/snapshots/"
+        }
+
+    }
+
+    buildscript {
+        repositories {
+            jcenter()
+            mavenCentral()
+        }
+        dependencies {
+            classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
+        }
+    }
+
+    warOverlay {
+        // Include the jar files in the WAR (default is false).
+        includeWarJars true
+    }
+
+    configurations {
+        war {}
+        shell
+        impexp
+    }
+
+    artifacts {
+        war tasks.war
+    }
+
+}

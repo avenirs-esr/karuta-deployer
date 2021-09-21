@@ -1,0 +1,167 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+configurations {
+    tomcat
+    shared
+}
+
+dependencies {
+    tomcat "org.apache.tomcat:tomcat:${tomcatVersion}@tar.gz"
+}
+
+/*
+ * Used by tasks in this file to avoid trying to start the Tomcat service twice, etc.
+ */
+private boolean verifyTomcatState(Project project, boolean verifyRunning) {
+    project.ant {
+        condition(property: 'tomcatIsRunning', value: true, else: false) {
+            socket(server: 'localhost', port: 8080)
+        }
+        if (Boolean.valueOf(tomcatIsRunning) != verifyRunning) {
+            logger.lifecycle("The embedded Tomcat servlet container ${verifyRunning ? 'is not currently' : 'is already'} running; nothing to do")
+            throw new StopExecutionException()
+        }
+    }
+}
+
+
+task tomcatInstall {
+    group 'Tomcat'
+    description 'Downloads the Apache Tomcat servlet container and performs the necessary configuration steps'
+    dependsOn ':projectProperties'
+
+    doLast {
+        String serverHome = rootProject.ext['buildProperties'].getProperty('server.home')
+
+        logger.lifecycle("Installing Tomcat servlet container version ${tomcatVersion} to location ${serverHome}")
+
+        File tomcatTmpDir = new File('build/tmp/tomcat')
+
+        // Clear & reset the tomcat directory
+        tomcatTmpDir.deleteDir()
+        tomcatTmpDir.mkdirs()
+
+        // Gunzip the Tomcat binaries
+        File tomcatTarGz = configurations.tomcat.files.iterator().next()
+        logger.lifecycle("Tomcat archive ${tomcatTarGz} " + tomcatTarGz.exists())
+
+        // Un-archive the tar.gz file
+        copy {
+            from tarTree(resources.gzip(tomcatTarGz))
+            into tomcatTmpDir
+        }
+
+        // Clear any previous copy of Tomcat
+        file(serverHome).deleteDir()
+
+        // Copy to the final location
+        copy {
+            from "${tomcatTmpDir}/apache-tomcat-${tomcatVersion}"
+            into serverHome
+        }
+
+        //  Configure our settings by overlaying etc/tomcat
+        copy {
+            from 'etc/tomcat'
+            into serverHome
+        }
+
+        // Add shared.loader dependencies
+        copy {
+            from configurations.shared
+            into "${serverHome}/shared/lib"
+        }
+
+        /*
+         * Create & initialize the folder that is the default location of {project.home].  (If
+         * another location has been specified, we don't want to mess with that.)
+         */
+        String projectHomeDir = "${serverHome}/${appName}"
+        file(projectHomeDir).mkdirs()
+        copy {
+            from "etc/${appName}"
+            into projectHomeDir
+        }
+    }
+}
+
+task tomcatStart() {
+    group 'Tomcat'
+    description 'Start the embedded Tomcat servlet container'
+    dependsOn ':projectProperties'
+
+    /*
+     * When we chain tasks together -- which is often convenient -- there are some other tasks that
+     * may potentially be included in the Task Graph that really need to complete before we start
+     * this one.
+     */
+    mustRunAfter ':tomcatInstall'
+    mustRunAfter allprojects.collect { it.tasks.matching { it.name.equals('tomcatDeploy') } }
+    //mustRunAfter ':hsqlStart'
+    //mustRunAfter allprojects.collect { it.tasks.matching { it.name.equals('dataInit') } }
+
+    doLast {
+        verifyTomcatState(project, false)
+
+        String serverHome = rootProject.ext['buildProperties'].getProperty('server.home')
+        String projectHome = rootProject.ext['buildProperties'].getProperty('project.home')
+        logger.lifecycle("Starting Tomcat servlet container in ${serverHome}")
+        String executable = isWindows ? 'cmd' : './catalina.sh'
+        ant.exec(dir: "${serverHome}/bin", executable: executable, spawn: true) {
+            env(key: "PROJECT_HOME", value: new File(projectHome).getCanonicalPath()) // Must be absolute
+            if (project.hasProperty('with-jpda')) {
+                arg(value: 'jpda')
+            }
+            arg(value: 'start')
+        }
+
+        ant.waitfor() {
+            http(url: 'http://localhost:8080/', followRedirects: false)
+        }
+
+        logger.lifecycle('Tomcat has finished loading webapps, local project server is live')
+    }
+}
+
+task tomcatStop() {
+    group 'Tomcat'
+    description 'Stop the embedded Tomcat servlet container'
+    dependsOn ':projectProperties'
+
+    doLast {
+        verifyTomcatState(project, true)
+
+        String serverHome = rootProject.ext['buildProperties'].getProperty('server.home')
+        logger.lifecycle("Stopping Tomcat servlet container in ${serverHome}")
+        ant.exec(dir: "${serverHome}/bin", executable: './shutdown.sh', spawn: true) {
+
+        }
+        ant.waitfor() {
+            not() {
+                http(url: "http://localhost:8080/${appName}", followRedirects: false)
+            }
+        }
+    }
+}
+
+task tomcatClearLogs(type: Delete) {
+    group 'Tomcat'
+    description 'Delete all log files within Tomcat'
+    dependsOn ':projectProperties'
+
+    doFirst {
+        String serverBase = rootProject.ext['buildProperties'].getProperty('server.base')
+        FileTree logsFolder = fileTree("${serverBase}/logs")
+        if (logsFolder.isEmpty()) {
+            logger.lifecycle('The Tomcat logs directory is empty;  there is noting to delete')
+        } else {
+            logsFolder.visit { FileVisitDetails details ->
+                logger.lifecycle("Deleting ${details.name}")
+                delete details.file
+            }
+        }
+    }
+}

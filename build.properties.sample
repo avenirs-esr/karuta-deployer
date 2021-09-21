@@ -1,0 +1,32 @@
+#
+# Modify this file to suit your local environment.
+# The values of these properties will
+# override the values of properties of the
+# same name in the buildDefaults.properties file.
+#
+# Use forward slashes for path names even if
+# you are in a Windows environment!
+#
+# IMPORTANT!  If you modify the value of either server.home or server.base, it is likely you will
+# want to modify the other value as well.  The default value of server.base is NOT calculated from
+# server.home.
+
+# Location of the integrated Tomcat installation; e.g. server.home=${env.CATALINA_HOME}.  This
+# property corresponds with the ${catalina.home} property within Tomcat (see Tomcat/bin/catalina.sh).
+#
+server.home=/opt/${user}/tomcat
+
+# (Optional) Base directory for resolving dynamic portions of the integrated Tomcat installation.
+# This property corresponds with the ${catalina.base} property within Tomcat (see
+# Tomcat/bin/catalina.sh).
+#
+#server.base=/opt/tomcat_run
+
+# (Optional) Webapps directory on which uPortal and portlets apps are deployed.
+# This property permti to deploy apps on a customized directory. Default value will
+# be on ${server.base}/webapps
+#
+server.webapps=/opt/${user}/webapps
+
+# Location of static cached files
+server.sharedCacheDir=/opt/${user}/cache

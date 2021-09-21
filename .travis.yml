@@ -1,0 +1,44 @@
+language: java
+
+jobs:
+  include:
+    - os: linux
+      dist: xenial
+      jdk: openjdk8
+    - os: linux
+      dist: xenial
+      jdk: openjdk11
+
+before_script:
+  - |
+    echo Start travis
+    echo Current dir is `pwd`
+    echo Home dir is `echo ~`
+    echo TRAVIS_BUILD_DIR is $TRAVIS_BUILD_DIR
+  - |
+    cat build.properties.sample >> build.properties
+    #echo "project.home=etc/karuta" >> build.properties
+    echo "show generated build.properties file"
+    cat build.properties
+
+script:
+  # test embedded tomcat
+  - ./gradlew -i -S tomcatInstall
+  - ./gradlew -i -S tomcatStart
+  - ./gradlew -i -S tomcatStop
+  - ./gradlew -i -S tomcatClearLogs
+  # test deploying all apps
+  - ./gradlew -i -S tomcatDeploy
+  - ./gradlew -i -S tomcatStart
+  - ./gradlew -i -S tomcatStop
+  - ./gradlew -i -S tomcatClearLogs
+  # test deploying karuta app
+  #- ./gradlew -i -S overlays:karuta:tomcatDeploy
+  - ./gradlew -i -S tomcatStart
+  - ./gradlew -i -S tomcatStop
+  - ./gradlew -i -S tomcatClearLogs
+
+cache:
+  directories:
+    - .gradle
+    - $HOME/.gradle/
