@@ -155,14 +155,22 @@
       <Host name="localhost"  appBase="webapps"
             unpackWARs="false" autoDeploy="false">
 
-          <Context path="/karuta" docBase="${server.webapps}/karuta.war" reloadable="false" crossContext="true" >
-               <!-- <Parameter name="spring.config.additional-location" value="${PROJECT_HOME}/karuta/"/> -->
+          <Context path="/karuta" docBase="${server.webapps}/karuta" reloadable="false" crossContext="true" >
+               <Manager pathname=""/>
+          </Context>
+          <Context path="/karuta-backend" docBase="${server.webapps}/karuta-backend" reloadable="false" crossContext="true" >
+               <Manager pathname=""/>
+          </Context>
+          <Context path="/karuta-fileserver" docBase="${server.webapps}/karuta-fileserver" reloadable="false" crossContext="true" >
+               <Manager pathname=""/>
+          </Context>
+          <Context path="/karuta-config" docBase="${server.webapps}/karuta-config" reloadable="false" crossContext="true" >
+               <Manager pathname=""/>
           </Context>
           <Context path="/manager" docBase="${server.home}/webapps/manager" reloadable="false" antiResourceLocking="false" privileged="true" useHttpOnly="true">
           </Context>
           <Context path="/probe" docBase="${server.webapps}/psi-probe" reloadable="false" antiResourceLocking="false" privileged="true" useHttpOnly="true" >
           </Context>
-
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
         <!--
