@@ -1,0 +1,9 @@
+dependencies {
+    runtime "com.portfolio.karuta:karuta-fileserver:${karutaFileserverVersion}@war"
+}
+
+war {
+    archiveFileName='karuta-fileserver.war'
+
+    classpath = classpath.files
+}
