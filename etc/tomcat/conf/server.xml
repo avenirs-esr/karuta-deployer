@@ -159,6 +159,28 @@
                <Manager pathname=""/>
           </Context>
           <Context path="/karuta-backend" docBase="${server.webapps}/karuta-backend" reloadable="false" crossContext="true" >
+               <!--
+               <Resource name="jdbc/karutaBakend" auth="Container" type="javax.sql.DataSource"
+                    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+                    username="USER" password="CHANGEIT"
+                    driverClassName="org.mariadb.jdbc.Driver" url="jdbc:mariadb://DATABASE_SERVER:PORT/DATABASE?useUnicode=true&amp;useEncoding=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Europe/Paris"
+                    initialSize="10" minIdle="10"
+                    maxActive="200" maxIdle="30" maxWait="1000"
+                    removeAbandoned="true"
+                    removeAbandonedTimeout="30"
+                    testOnBorrow="true"
+                    testWhileIdle="true"
+                    numTestsPerEvictionRun="5"
+                    timeBetweenEvictionRunsMillis="10000"
+                    minEvictableIdleTimeMillis="60000"
+                    validationQuery="SELECT 1"
+                    validationQueryTimeout="7"
+                    jdbcInterceptors="ConnectionState(useEquals=true);ResetAbandonedTimer;SlowQueryReport"
+                    jmxEnabled="true"
+                    logAbandoned="true"
+                    defaultTransactionIsolation="TRANSACTION_READ_COMMITTED"
+               />
+               -->
                <Manager pathname=""/>
           </Context>
           <Context path="/karuta-fileserver" docBase="${server.webapps}/karuta-fileserver" reloadable="false" crossContext="true" >
