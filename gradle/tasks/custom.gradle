@@ -1,0 +1,28 @@
+import java.nio.file.*
+
+task deployKarutaConfig() {
+    group 'project'
+    description 'Deploy Karuta-config'
+    dependsOn ':projectProperties'
+
+    doLast {
+
+        String serverWebapps = rootProject.ext['buildProperties'].getProperty('server.webapps')
+
+        logger.lifecycle("Installing Karuta-Config to location ${serverWebapps}")
+
+        /*
+         * Create & initialize the folder that is the default location of {project.home].  (If
+         * another location has been specified, we don't want to mess with that.)
+         */
+        String projectHomeDir = "${serverWebapps}/${appName}-config"
+        file(projectHomeDir).deleteDir()
+        file(projectHomeDir).mkdirs()
+        copy {
+            from "etc/${appName}-config"
+            into projectHomeDir
+        }
+    }
+
+
+}
