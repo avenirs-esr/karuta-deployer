@@ -25,6 +25,7 @@ class GradleTomcatDeployPlugin implements Plugin<Project> {
             description 'Deploys this project to the integrated Tomcat servlet container'
             dependsOn 'tomcatClean'
             dependsOn 'assemble'
+            //finalizedBy project.rootProject.tasks.deployKarutaConfig
 
             doFirst {
                 File serverWebapps = project.rootProject.file(project.rootProject.ext['buildProperties'].getProperty('server.webapps'))

@@ -4,6 +4,7 @@ task deployKarutaConfig() {
     group 'project'
     description 'Deploy Karuta-config'
     dependsOn ':projectProperties'
+    //mustRunAfter allprojects.collect { it.tasks.matching { it.name.equals('tomcatDeploy') } }
 
     doLast {
 
