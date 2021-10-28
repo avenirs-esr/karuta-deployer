@@ -2,7 +2,7 @@
 gradle-war-deployer for karuta
 embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
-# How to install
+## How to install
 
 * customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
 * run `./gradlew tomcatInstall` to
@@ -33,3 +33,46 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
 NOTE: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
+
+
+## Tomcat configuration
+
+most important file to watch on is `etc/tomcat/server.xml`
+
+* the connector configured by default is for proxy HTTP and not for AJP
+* you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
+* accesslog valve is configured for a HAproxy frontend
+
+Following example of proxy http configurations on a frontal server
+* apache
+
+```
+
+  <VirtualHost *:443>
+    ...
+    # SSL stuff
+    ...
+    # required arguments for proxying app
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+    ProxyPreserveHost On
+
+    ProxyPass /karuta http://an_ip:8080/karuta
+    # not needed expect for redirecting from inside
+    #ProxyPassReverse / http://an_ip:8080/
+</VirtualHost>
+```
+
+* HAproxy
+```
+backend bk_karuta
+
+    option forwardfor
+
+    redirect scheme https code 301 if !{ ssl_fc }
+
+    http-request set-header X-Forwarded-Proto https if { ssl_fc }
+    http-request set-header X-Forwarded-Port %[dst_port]
+
+    server karuta AN_IP:8080
+```
