@@ -23,10 +23,15 @@ server.home=/opt/${user}/tomcat
 #server.base=/opt/tomcat_run
 
 # (Optional) Webapps directory on which uPortal and portlets apps are deployed.
-# This property permti to deploy apps on a customized directory. Default value will
+# This property permit to deploy apps on a customized directory. Default value will
 # be on ${server.base}/webapps
 #
 server.webapps=/opt/${user}/webapps
+
+# (Optional) project home directory where all karuta's project will found there config directories
+# This porperty permit to set where to deploy at tomcatInstall the default configuration files
+# this is the default path configuration
+# project.home=${server.base}/${appName}
 
 # Location of static cached files
 server.sharedCacheDir=/opt/${user}/cache
