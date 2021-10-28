@@ -9,12 +9,12 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   *  unzip tomcat from offical sources
   *  deploy custom conf from `etc/tomcat/`
   *  copy karuta backend and filserver config from `etc/karuta/`
-* run `.gradlew tomcatDeploy ` will deploy on tomcat webapps directory
+* run `./gradlew tomcatDeploy ` will deploy on tomcat webapps directory
   * `psi-probe` for tomcat overview and management
   * `karuta-backend`
   * `karuta-fileserver`
   * `karuta-frontend` (on `karuta`)
-* run `.gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
+* run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
 * customize your jvm env with such configuration example to adapt:
 
 ```
