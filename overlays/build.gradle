@@ -1,7 +1,9 @@
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
+        maven {
+            url "https://repo.jenkins-ci.org/public/"
+        }
     }
     dependencies {
         classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
@@ -28,8 +30,10 @@ subprojects {
 
     buildscript {
         repositories {
-            jcenter()
             mavenCentral()
+            maven {
+                url "https://repo.jenkins-ci.org/public/"
+            }
         }
         dependencies {
             classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
