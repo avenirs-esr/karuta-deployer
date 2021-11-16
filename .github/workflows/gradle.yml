@@ -13,6 +13,8 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    env:
+      KARUTA_HOME: '/opt/${user}/tomcat'
 
     strategy:
       matrix:
@@ -36,3 +38,8 @@ jobs:
       run: |
         ./gradlew tomcatDeploy
         ./gradlew deployKarutaConfig
+    - name: run tomcat
+      if: ${{startsWith(matrix.java, '8')}}
+      run: |
+        ./gradlew tomcatStart
+        ./gradlew tomcatStop
