@@ -73,7 +73,7 @@
     <Connector executor="tomcatThreadPool"
                scheme="https" secure="true"
                port="8080" protocol="HTTP/1.1"
-               connectionTimeout="20000"
+               connectionTimeout="300000"
                redirectPort="8443"
                maxHeaderCount="200"
                compression="on"
