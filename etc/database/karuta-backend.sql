@@ -1,7 +1,3 @@
--- Table creation only
-
-USE `karuta-backend` ;
-
 --
 -- Structure de la table `log`
 --

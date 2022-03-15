@@ -1,8 +1,6 @@
 -- Helper function, to be used once when creating a new DB, or after
 -- exporting/importing a DB
 
-USE `karuta-backend` ;
-
 -- Server Script (source: http://bugs.mysql.com/bug.php?id=1214)
 delimiter //
 
