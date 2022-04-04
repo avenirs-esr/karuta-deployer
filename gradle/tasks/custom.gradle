@@ -30,8 +30,18 @@ task deployKarutaConfig() {
                 from "etc/${appliName}-config"
                 into projectHomeDir
             }
+
+            /** Creating symlink to access to some files like xsl from /karuta project - the backend need it as it access from local file path */
+            if (!appliName.equals(appName)){
+                Path target = Paths.get("${serverWebapps}","${appName}");
+                Path link = Paths.get("${serverWebapps}","${appliName}");
+                if (Files.exists(link)) {
+                    logger.lifecycle("Removing ${link}")
+                    Files.delete(link);
+                }
+                logger.lifecycle("Creating ${link} symlink from ${target}")
+                Files.createSymbolicLink(link, target);
+            }
         }
     }
-
-
 }
