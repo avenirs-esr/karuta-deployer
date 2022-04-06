@@ -8,7 +8,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 * run `./gradlew tomcatInstall` to
   *  unzip tomcat from offical sources
   *  deploy custom conf from `etc/tomcat/`
-  *  copy karuta backend and filserver config from `etc/karuta/`
+  *  copy karuta backend and filserver config from `etc/karuta/` into `$KARUTA_HOME` path (the default path is `$CATALINA_BASE/karuta`)
 * run `./gradlew tomcatDeploy ` will deploy on tomcat webapps directory
   * `psi-probe` for tomcat overview and management
   * `karuta-backend`
