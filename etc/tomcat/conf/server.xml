@@ -162,7 +162,7 @@
           </Context>
           <Context path="/karuta-backend" docBase="${server.webapps}/karuta-backend" reloadable="false" crossContext="true" >
                <!--
-               <Resource name="jdbc/karutaBakend" auth="Container" type="javax.sql.DataSource"
+               <Resource name="jdbc/karutaBackend" auth="Container" type="javax.sql.DataSource"
                     factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
                     username="USER" password="CHANGEIT"
                     driverClassName="org.mariadb.jdbc.Driver" url="jdbc:mariadb://DATABASE_SERVER:PORT/DATABASE?useUnicode=true&amp;useEncoding=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Europe/Paris"
