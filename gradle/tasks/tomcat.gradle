@@ -79,12 +79,14 @@ task tomcatInstall {
          * Create & initialize the folder that is the default location of {project.home].  (If
          * another location has been specified, we don't want to mess with that.)
          */
-        String projectHomeDir = "${serverHome}/${appName}"
-        file(projectHomeDir).mkdirs()
+        String projectHome = rootProject.ext['buildProperties'].getProperty('project.home')
+        file(projectHome).mkdirs()
+        logger.lifecycle("Deploying files from 'etc/${appName}/' into ${projectHome}/")
         copy {
             from "etc/${appName}"
-            into projectHomeDir
+            into projectHome
         }
+
     }
 }
 
