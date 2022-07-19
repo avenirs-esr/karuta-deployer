@@ -35,9 +35,6 @@ server.webapps=/opt/${user}/webapps
 #
 # project.home=${server.base}
 
-# Location of static cached files
-server.sharedCacheDir=/opt/${user}/cache
-
 # (Optional) List of config instance into etc/*-config/ to deploy, use "," as separator
 # keep this property commented for default deployment of karuta-config, else usefull to deploy several context
 #
