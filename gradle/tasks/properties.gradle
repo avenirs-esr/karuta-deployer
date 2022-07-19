@@ -77,8 +77,8 @@ task projectProperties() {
         if (System.getenv('CATALINA_BASE')) {
             buildProperties.setProperty('server.base', System.getenv('CATALINA_BASE'))
         }
-        if (System.getenv('PROJECT_HOME')) {
-            buildProperties.setProperty('project.home', System.getenv('PROJECT_HOME'))
+        if (System.getenv('KARUTA_HOME')) {
+            buildProperties.setProperty('project.home', System.getenv('KARUTA_HOME'))
         }
 
         /*
@@ -112,7 +112,7 @@ task projectProperties() {
          */
         if (!buildProperties.containsKey('project.home')) {
             // Still need to check for a JVM argument...
-            String projectHome = System.getProperty('project.home') ?: "${buildProperties.getProperty('server.base')}/${appName}"
+            String projectHome = System.getProperty('project.home') ?: "${buildProperties.getProperty('server.base')}"
             buildProperties.setProperty('project.home', projectHome)
         }
 

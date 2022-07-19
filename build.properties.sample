@@ -19,8 +19,9 @@ server.home=/opt/${user}/tomcat
 # (Optional) Base directory for resolving dynamic portions of the integrated Tomcat installation.
 # This property corresponds with the ${catalina.base} property within Tomcat (see
 # Tomcat/bin/catalina.sh).
+# This is the default path configuration
 #
-#server.base=/opt/tomcat_run
+#server.base=${server.home}
 
 # (Optional) Webapps directory on which uPortal and portlets apps are deployed.
 # This property permit to deploy apps on a customized directory. Default value will
@@ -29,12 +30,15 @@ server.home=/opt/${user}/tomcat
 server.webapps=/opt/${user}/webapps
 
 # (Optional) project home directory where all karuta's project will found there config directories
-# This porperty permit to set where to deploy at tomcatInstall the default configuration files
-# this is the default path configuration
-# project.home=${server.base}/${appName}
+# This property permit to set where to deploy at tomcatInstall the default configuration files
+# This is the default path configuration
+#
+# project.home=${server.base}
 
 # Location of static cached files
 server.sharedCacheDir=/opt/${user}/cache
 
-# List of config instance into etc/*-config/ to deploy, use "," as separator
+# (Optional) List of config instance into etc/*-config/ to deploy, use "," as separator
+# keep this property commented for default deployment of karuta-config, else usefull to deploy several context
+#
 #karuta.appliNames=

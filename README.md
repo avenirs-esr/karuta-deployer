@@ -2,20 +2,27 @@
 gradle-war-deployer for karuta
 embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
+## Requirements
+* run with java 8
+
 ## How to install
 
 * customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
 * run `./gradlew tomcatInstall` to
   *  unzip tomcat from offical sources
   *  deploy custom conf from `etc/tomcat/`
-  *  copy karuta backend and filserver config from `etc/karuta/` into `$PROJECT_HOME` path (the default path is `$CATALINA_BASE/karuta` - this variable should be set with the same path of `$KARUTA_HOME` )
-* run `./gradlew tomcatDeploy ` will deploy on tomcat webapps directory
+  *  copy karuta backend and filserver config from `etc/karuta/` into `$PROJECT_HOME` path.
+     * the default path use `$CATALINA_BASE` if set, or `server.base` property from `build.properties`
+     * this variable will be overriden by `$KARUTA_HOME` if set
+     * if no `$KARUTA_HOME` is set, this can be overriden by `project.home` property from `build.properties` or passed in argument of all gradle commands
+     * WARNING:  `etc/karuta/` path is defined from `appName` property into `gradle.property`, don't modify it !
+* run `./gradlew tomcatDeploy --refresh-dependencies` will deploy on tomcat webapps directory
   * `psi-probe` for tomcat overview and management
   * `karuta-backend`
   * `karuta-fileserver`
   * `karuta-frontend` (on `karuta`)
 * run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
-* customize your jvm env with such configuration example to adapt:
+* customize your jvm env with such a configuration example to adapt:
 
 ```
   export CATALINA_HOME=/opt/${user}/tomcat
@@ -32,8 +39,9 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 ```
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
-NOTE: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
+NOTE 1: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
+NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement viariable to customize the folder where log reports will be produced.
 
 ## Tomcat configuration
 
