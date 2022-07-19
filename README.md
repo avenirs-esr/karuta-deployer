@@ -43,6 +43,17 @@ NOTE 1: you can have a git repository to manage `karuta-backend_config` and `kar
 
 NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement viariable to customize the folder where log reports will be produced.
 
+
+## Database init:
+  **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example**
+
+
+Following provide all commands that you should run from the project (it's an example on what can be done):
+
+1. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/karuta-backend-func.sql`
+2. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/karuta-backend.sql`
+3. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/report-helper.sql`
+
 ## Tomcat configuration
 
 most important file to watch on is `etc/tomcat/server.xml`
