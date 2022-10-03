@@ -1,9 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            url "https://repo.jenkins-ci.org/public/"
-        }
+        jcenter()
     }
     dependencies {
         classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
@@ -11,6 +8,7 @@ buildscript {
 }
 
 subprojects {
+    apply plugin: 'maven'
     apply plugin: 'waroverlay'
     apply plugin: org.esco.script.gradle.plugins.GradleTomcatDeployPlugin
 
@@ -19,21 +17,20 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven {
+	    maven { url "https://jitpack.io" }
+/*        
+	maven {
             url "https://nexus.recia.fr/repository/releases/"
         }
         maven {
             url "https://nexus.recia.fr/repository/snapshots/"
         }
-
+*/
     }
 
     buildscript {
         repositories {
-            mavenCentral()
-            maven {
-                url "https://repo.jenkins-ci.org/public/"
-            }
+            jcenter()
         }
         dependencies {
             classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"

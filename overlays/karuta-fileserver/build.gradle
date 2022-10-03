@@ -1,9 +1,33 @@
 dependencies {
-    runtime "com.portfolio.karuta:karuta-fileserver:${karutaFileserverVersion}@war"
+    runtime "com.eportfolium.karuta:karuta-fileserver:${karutaFileserverVersion}@war"
 }
 
 war {
     archiveFileName='karuta-fileserver.war'
 
     classpath = classpath.files
+
+    def manifestPath = "${projectDir}/src/main/resources"
+
+    configurations.runtime.each {
+        if (it.name.endsWith(".war")) {
+            def w = it
+            copy {
+                into manifestPath
+                from zipTree(w).matching {
+                    include "META-INF/MANIFEST.MF"
+                }
+            }
+        }
+    }
+
+    manifest {
+
+        def manifestFile = "${manifestPath}/META-INF/MANIFEST.MF"
+        if (new File(manifestFile).exists()){
+                from ( manifestFile )
+        } else {
+                println "$project.name file '${manifestFile}' not found"
+        }
+    }
 }
