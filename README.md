@@ -39,12 +39,12 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 ```
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
-NOTE 1: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
+NOTE 1: You can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
-NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement viariable to customize the folder where log reports will be produced.
+NOTE 2: You can set `KARUTA_REPORT_FOLDER` environnement viariable to customize the folder where log reports will be produced.
 
 
-## Database init:
+### Database init:
   **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example**
 
 
@@ -54,19 +54,19 @@ Following provide all commands that you should run from the project (it's an exa
 2. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/karuta-backend.sql`
 3. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/report-helper.sql`
 
-## Tomcat configuration
+### Tomcat configuration
 
-most important file to watch on is `etc/tomcat/server.xml`
+Most important file to watch on is `etc/tomcat/server.xml`
 
 * the connector configured by default is for proxy HTTP and not for AJP
 * you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
 * accesslog valve is configured for a HAproxy frontend
 
-Following example of proxy http configurations on a frontal server
-* apache
+Following example of proxy http configurations on a frontal server:
+
+* Apache
 
 ```
-
   <VirtualHost *:443>
     ...
     # SSL stuff
@@ -83,6 +83,7 @@ Following example of proxy http configurations on a frontal server
 ```
 
 * HAproxy
+
 ```
 backend bk_karuta
 
@@ -95,3 +96,19 @@ backend bk_karuta
 
     server karuta AN_IP:8080
 ```
+
+### First Configuration
+Go to KAruta official website and download karuta.zip and karuta-config.zip.
+When your Karuta is on, connect to it with root/mati, and import the 2 zip files.
+
+## Upgrading Karuta
+To upgrade your installed Karuta version, first ensure you've made a recent backup of you database.
+Check also that the minimal Tomcat version hasn't changed, then use these command lines:
+
+```
+git pull
+./gradlew tomcatDeploy --refresh-dependencies
+```
+Then, check if the usual karuta.zip and karuta-config.zip haven't changed. If so, import them on Karuta.
+
+nb : if the minimal tomcat version has changed, run `./gradlew tomcatInstall` also.
