@@ -98,8 +98,9 @@ backend bk_karuta
 ```
 
 ### First Configuration
-Go to KAruta official website and download karuta.zip and karuta-config.zip.
-When your Karuta is on, connect to it with root/mati, and import the 2 zip files.
+Go to [Karuta official website](https://www.eportfolium.com/cooperative/application/htm/cooperative.htm) and download karuta.zip and karuta-config.zip.
+When your Karuta is on, connect to it with root/mati, and import the 2 zip files. Do not forget to change the default root pwd !
+
 
 ## Upgrading Karuta
 To upgrade your installed Karuta version, first ensure you've made a recent backup of you database.
