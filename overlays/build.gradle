@@ -10,7 +10,7 @@ buildscript {
 subprojects {
     apply plugin: 'maven'
     apply plugin: 'waroverlay'
-    apply plugin: org.esco.script.gradle.plugins.GradleTomcatDeployPlugin
+    apply plugin: org.esupportail.script.gradle.plugins.GradleTomcatDeployPlugin
 
     task allDeps(type: DependencyReportTask) {}
 

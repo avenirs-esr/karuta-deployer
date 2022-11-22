@@ -1,4 +1,4 @@
-package org.esco.script.gradle.plugins
+package org.esupportail.script.gradle.plugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
