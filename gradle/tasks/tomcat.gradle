@@ -28,10 +28,11 @@ private boolean verifyTomcatState(Project project, boolean verifyRunning) {
 }
 
 
-task tomcatInstall {
+task tomcatInstall() {
     group 'Tomcat'
     description 'Downloads the Apache Tomcat servlet container and performs the necessary configuration steps'
     dependsOn ':projectProperties'
+    finalizedBy 'tomcatConfig'
 
     doLast {
         String serverHome = rootProject.ext['buildProperties'].getProperty('server.home')
@@ -43,6 +44,7 @@ task tomcatInstall {
         // Clear & reset the tomcat directory
         tomcatTmpDir.deleteDir()
         tomcatTmpDir.mkdirs()
+
 
         // Gunzip the Tomcat binaries
         File tomcatTarGz = configurations.tomcat.files.iterator().next()
@@ -62,6 +64,16 @@ task tomcatInstall {
             from "${tomcatTmpDir}/apache-tomcat-${tomcatVersion}"
             into serverHome
         }
+    }
+}
+
+task tomcatConfig() {
+    group 'Tomcat'
+    description 'Configures Tomcat servlet container, used to update an existing Tomcat install'
+    dependsOn ':projectProperties'
+
+    doLast {
+        String serverHome = rootProject.ext['buildProperties'].getProperty('server.home')
 
         //  Configure our settings by overlaying etc/tomcat
         copy {

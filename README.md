@@ -10,7 +10,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 * customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
 * run `./gradlew tomcatInstall` to
   *  unzip tomcat from offical sources
-  *  deploy custom conf from `etc/tomcat/`
+  *  deploy custom conf from `etc/tomcat/` - this task call the `tomcatConfig` task that could be used for deploying only a new tomcat conf on an existing tomcat
   *  copy karuta backend and filserver config from `etc/karuta/` into `$PROJECT_HOME` path.
      * the default path use `$CATALINA_BASE` if set, or `server.base` property from `build.properties`
      * this variable will be overriden by `$KARUTA_HOME` if set
