@@ -22,7 +22,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   * `karuta-fileserver`
   * `karuta-frontend` (on `karuta`)
 * run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
-* customize your jvm env with such a configuration example to adapt:
+* customize your jvm env with a such configuration example to adapt:
 
 ```
   export CATALINA_HOME=/opt/${user}/tomcat
