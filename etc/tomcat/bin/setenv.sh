@@ -4,12 +4,12 @@ CATALINA_OPTS="$CATALINA_OPTS -XX:+PrintCommandLineFlags"
 # Prevent "Unrecognized Name" SSL warning
 CATALINA_OPTS="$CATALINA_OPTS -Djsse.enableSNIExtension=true"
 
-# We need to send a 'portal.home' system property to the JVM;  use the value of PORTAL_HOME, if
+# We need to send a 'project.home' system property to the JVM;  use the value of PROJECT_HOME, if
 # present, or fall back to a value calculated from $CATALINA_BASE
 
-# [ -z "$PORTAL_HOME" ] && PORTAL_HOME="$CATALINA_BASE/portal"
-# echo "PORTAL_HOME=$PORTAL_HOME"
-# CATALINA_OPTS="$CATALINA_OPTS -Dportal.home=$PORTAL_HOME"
+# [ -z "$PROJECT_HOME" ] && PROJECT_HOME="$CATALINA_BASE/PROJECT"
+# echo "PROJECT_HOME=$PROJECT_HOME"
+# CATALINA_OPTS="$CATALINA_OPTS -Dproject.home=$PROJECT_HOME"
 
 # Checking if anyother garbage collectors have been defined. If no other garbage
 # collector is present, default to G1GC
