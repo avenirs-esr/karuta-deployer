@@ -25,17 +25,18 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 * customize your jvm env with a such configuration example to adapt:
 
 ```
-  export CATALINA_HOME=/opt/${user}/tomcat
-  export CATALINA_BASE=/opt/${user}/tomcat
+  # check user environment variable is set or replace the user name
+  export CATALINA_HOME=/opt/${USER}/tomcat
+  export CATALINA_BASE=/opt/${USER}/tomcat
   export CATALINA_TMPDIR=$CATALINA_BASE/temp
-  export CATALINA_PID=/opt/${user}/tomcat/karuta.pid
+  export CATALINA_PID=/opt/${USER}/tomcat/karuta.pid
   export KARUTA_HOME=$CATALINA_BASE/karuta
 
   export JAVA_OPTS="$JAVA_OPTS -server -d64 -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
   export JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600"
   export JAVA_OPTS="$JAVA_OPTS -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dhttps.protocols=TLSv1.2"
   export JAVA_OPTS="$JAVA_OPTS -Dhttp.agent=Java-Karuta"
-  export JAVA_OPTS="$JAVA_OPTS -Dserver.webapps=/opt/${user}/webapps -Dserver.home=/opt/${user}/tomcat"
+  export JAVA_OPTS="$JAVA_OPTS -Dserver.webapps=/opt/${USER}/webapps -Dserver.home=/opt/${USER}/tomcat"
 ```
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
