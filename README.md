@@ -28,7 +28,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   export CATALINA_HOME=/opt/${user}/tomcat
   export CATALINA_BASE=/opt/${user}/tomcat
   export CATALINA_TMPDIR=$CATALINA_BASE/temp
-  export CATALINA_PID=/opt/${user}/tomcat/uportal.pid
+  export CATALINA_PID=/opt/${user}/tomcat/karuta.pid
   export KARUTA_HOME=$CATALINA_BASE/karuta
 
   export JAVA_OPTS="$JAVA_OPTS -server -d64 -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
