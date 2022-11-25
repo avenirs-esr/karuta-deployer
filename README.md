@@ -50,9 +50,9 @@ NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement viariable to customize 
 
 Following provide all commands that you should run from the project (it's an example on what can be done):
 
-1. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/karuta-backend-func.sql`
-2. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/karuta-backend.sql`
-3. `mysql -h${sql.server.host} -u ${user} -p ${password} < etc/database/report-helper.sql`
+1. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend-func.sql`
+2. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend.sql`
+3. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
 
 ## Tomcat configuration
 
