@@ -98,7 +98,7 @@ task tomcatConfig() {
             from "etc/${appName}/"
             include '*_config/*.*'
             into projectHome
-            eachFile { logger.lifecycle("copied ${it} into '${projectHome}${it.getRelativePath()}'") }
+            eachFile { logger.lifecycle("copied ${it} into '${projectHome}/${it.getRelativePath()}'") }
         }
     }
 }
