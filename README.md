@@ -32,11 +32,19 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   export CATALINA_PID=/opt/${USER}/tomcat/karuta.pid
   export KARUTA_HOME=$CATALINA_BASE/karuta
 
-  export JAVA_OPTS="$JAVA_OPTS -server -d64 -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
-  export JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600"
-  export JAVA_OPTS="$JAVA_OPTS -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dhttps.protocols=TLSv1.2"
-  export JAVA_OPTS="$JAVA_OPTS -Dhttp.agent=Java-Karuta"
-  export JAVA_OPTS="$JAVA_OPTS -Dserver.webapps=/opt/${USER}/webapps -Dserver.home=/opt/${USER}/tomcat"
+  export CATALINA_OPTS="$CATALINA_OPTS -server -d64 -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
+  export CATALINA_OPTS="$CATALINA_OPTS -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600"
+  export CATALINA_OPTS="$CATALINA_OPTS -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dhttps.protocols=TLSv1.2,TLSv1.3"
+  export CATALINA_OPTS="$CATALINA_OPTS -Dhttp.agent=Java-Karuta"
+  export CATALINA_OPTS="$CATALINA_OPTS -Dserver.webapps=/opt/${USER}/webapps -Dserver.home=/opt/${USER}/tomcat"
+
+  # to enable JMX - must be modified depending on context
+  # export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote.port=7777 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+
+  # to enable java remote debug
+  # export JPDA_ADDRESS=6665
+  # export JPDA_TRANSPORT=dt_socket
+
 ```
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
