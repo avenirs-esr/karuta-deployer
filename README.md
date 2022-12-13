@@ -71,6 +71,10 @@ most important file to watch on is `etc/tomcat/server.xml`
 * you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
 * accesslog valve is configured for a HAproxy frontend
 
+## Frontal configuration
+
+WARNINNG: don't expose to public the `/karuta-fileserver` context
+
 Following example of proxy http configurations on a frontal server
 * apache
 
@@ -85,7 +89,8 @@ Following example of proxy http configurations on a frontal server
     RequestHeader set X-Forwarded-Port "443"
     ProxyPreserveHost On
 
-    ProxyPass /karuta http://an_ip:8080/karuta
+    ProxyPass /karuta/ http://an_ip:8080/karuta/
+    ProxyPass /karuta-backend http://an_ip:8080/karuta-backend
     # not needed expect for redirecting from inside
     #ProxyPassReverse / http://an_ip:8080/
 </VirtualHost>
@@ -93,6 +98,17 @@ Following example of proxy http configurations on a frontal server
 
 * HAproxy
 ```
+frontend https-in
+  bind PUBLIC_IP ssl .....
+
+...
+  acl acl_uri_karuta path -i /karuta
+  acl acl_uri_karuta path_beg -i /karuta/ /karuta-backend/ /karuta-config/
+...
+  use_backend bk_karuta if acl_uri_karuta
+
+
+
 backend bk_karuta
 
     option forwardfor
@@ -104,3 +120,9 @@ backend bk_karuta
 
     server karuta AN_IP:8080
 ```
+
+## Run and init
+
+`./gradlew tomcatStart`
+
+Connect to the karuta app and import zip into `etc/model/` in the order of file names.

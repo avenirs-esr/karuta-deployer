@@ -184,6 +184,7 @@
                -->
                <Manager pathname=""/>
           </Context>
+          <!-- WARNING: don't expose to the web the context /karuta-fileserver, it's only required on localhost -->
           <Context path="/karuta-fileserver" docBase="${server.webapps}/karuta-fileserver" reloadable="false" crossContext="true" >
                <Manager pathname=""/>
           </Context>
