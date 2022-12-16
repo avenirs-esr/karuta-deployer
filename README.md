@@ -91,6 +91,7 @@ Following example of proxy http configurations on a frontal server
 
     ProxyPass /karuta/ http://an_ip:8080/karuta/
     ProxyPass /karuta-backend http://an_ip:8080/karuta-backend
+    ProxyPass /karuta-config http://an_ip:8080/karuta-config
     # not needed expect for redirecting from inside
     #ProxyPassReverse / http://an_ip:8080/
 </VirtualHost>
