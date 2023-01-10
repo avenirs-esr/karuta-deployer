@@ -15,7 +15,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
      * the default path use `$CATALINA_BASE` if set, or `server.base` property from `build.properties`
      * this variable will be overriden by `$KARUTA_HOME` if set
      * if no `$KARUTA_HOME` is set, this can be overriden by `project.home` property from `build.properties` or passed in argument of all gradle commands
-     * WARNING:  `etc/karuta/` path is defined from `appName` property into `gradle.property`, don't modify it !
+     * WARNING:  `etc/karuta/` path is defined from `appName` property into `gradle.properties`, don't modify it !
 * run `./gradlew tomcatDeploy --refresh-dependencies` will deploy on tomcat webapps directory
   * `psi-probe` for tomcat overview and management
   * `karuta-backend`
@@ -50,7 +50,7 @@ you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.
 
 NOTE 1: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
-NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement viariable to customize the folder where log reports will be produced.
+NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement variable to customize the folder where log reports will be produced.
 
 
 ## Database init:
@@ -71,16 +71,15 @@ most important file to watch on is `etc/tomcat/server.xml`
 * you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
 * accesslog valve is configured for a HAproxy frontend
 
-## Frontal configuration
+## Reverse proxy configuration
 
-WARNINNG: don't expose to public the `/karuta-fileserver` context
+WARNING: don't expose to the public the `/karuta-fileserver` context.
 
 Following example of proxy http configurations on a frontal server
 * apache
 
-```
-
-  <VirtualHost *:443>
+```apache
+<VirtualHost *:443>
     ...
     # SSL stuff
     ...
@@ -126,4 +125,4 @@ backend bk_karuta
 
 `./gradlew tomcatStart`
 
-Connect to the karuta app and import zip into `etc/model/` in the order of file names.
+Connect to the Karuta app and import the ZIP files that are into `etc/model/` in the order of file names.

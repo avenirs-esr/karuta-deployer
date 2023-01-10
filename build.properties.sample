@@ -23,7 +23,7 @@ server.home=/opt/${user}/tomcat
 #
 #server.base=${server.home}
 
-# (Optional) Webapps directory on which uPortal and portlets apps are deployed.
+# (Optional) Webapps directory on which Karuta apps are deployed.
 # This property permit to deploy apps on a customized directory. Default value will
 # be on ${server.base}/webapps
 #
