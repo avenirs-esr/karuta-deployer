@@ -55,7 +55,8 @@ NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement variable to customize t
 
 ## Database init:
   **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example**
-The database should be tuned with this conf:
+
+NB: The database should be tuned with this conf:
 * create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
 * edit and add the content
 ```conf
