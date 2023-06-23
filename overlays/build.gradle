@@ -1,15 +1,9 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
-    }
-}
+import scaldingspoon.gradle.WarOverlayPlugin
 
 subprojects {
+
     apply plugin: 'maven'
-    apply plugin: 'waroverlay'
+    apply plugin: WarOverlayPlugin
     apply plugin: org.esupportail.script.gradle.plugins.GradleTomcatDeployPlugin
 
     task allDeps(type: DependencyReportTask) {}
@@ -18,20 +12,11 @@ subprojects {
         mavenLocal()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { 
-            url "https://s01.oss.sonatype.org/content/groups/public/" 
+        maven {
+            url "https://s01.oss.sonatype.org/content/groups/public/"
             mavenContent {
                 snapshotsOnly()
-            }    
-        }
-    }
-
-    buildscript {
-        repositories {
-            jcenter()
-        }
-        dependencies {
-            classpath "org.scaldingspoon.gradle:gradle-waroverlay-plugin:${waroverlayPluginVersion}"
+            }
         }
     }
 
