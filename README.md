@@ -3,8 +3,7 @@ gradle-war-deployer for karuta
 embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
 ## Requirements
-* run with java 8, possibility java 11 must be confirmed
-
+* run with java 11 minimum
 ## How to install
 
 * customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
@@ -32,7 +31,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   export CATALINA_PID=/opt/${USER}/tomcat/karuta.pid
   export KARUTA_HOME=$CATALINA_BASE/karuta
 
-  export CATALINA_OPTS="$CATALINA_OPTS -server -d64 -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
+  export CATALINA_OPTS="$CATALINA_OPTS -server -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
   export CATALINA_OPTS="$CATALINA_OPTS -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600"
   export CATALINA_OPTS="$CATALINA_OPTS -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dhttps.protocols=TLSv1.2,TLSv1.3"
   export CATALINA_OPTS="$CATALINA_OPTS -Dhttp.agent=Java-Karuta"
