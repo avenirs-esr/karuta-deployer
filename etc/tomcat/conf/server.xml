@@ -179,7 +179,7 @@
                     jdbcInterceptors="ConnectionState(useEquals=true);ResetAbandonedTimer;SlowQueryReport"
                     jmxEnabled="true"
                     logAbandoned="true"
-                    defaultTransactionIsolation="TRANSACTION_READ_COMMITTED"
+                    defaultTransactionIsolation="READ_COMMITTED"
                />
                -->
                <Manager pathname=""/>
