@@ -7,6 +7,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   - [Requirements](#requirements)
   - [How to install](#how-to-install)
   - [Database init](#database-init)
+  - [Database Migration](#database-migration)
   - [Tomcat configuration](#tomcat-configuration)
   - [Reverse proxy configuration](#reverse-proxy-configuration)
     - [apache](#apache)
@@ -85,6 +86,10 @@ Following provide all commands that you should run from the project (it's an exa
 1. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend-func.sql`
 2. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend.sql`
 3. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
+
+## Database Migration
+
+- When migrating from kapc1.2 or 1.3 to 1.3.5 or later, apply `ALTER TABLE vector_table MODIFY COLUMN a5 VARCHAR(5000) NOT NULL;`
 
 ## Tomcat configuration
 

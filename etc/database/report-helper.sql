@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `vector_table` (
   `a2` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
   `a3` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
   `a4` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
-  `a5` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
+  `a5` varchar(5000) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
   `a6` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
   `a7` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
   `a8` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT "",
