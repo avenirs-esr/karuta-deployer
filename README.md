@@ -1,29 +1,42 @@
 # karuta-deployer
+
 gradle-war-deployer for karuta
 embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
+- [karuta-deployer](#karuta-deployer)
+  - [Requirements](#requirements)
+  - [How to install](#how-to-install)
+  - [Database init](#database-init)
+  - [Tomcat configuration](#tomcat-configuration)
+  - [Reverse proxy configuration](#reverse-proxy-configuration)
+    - [apache](#apache)
+    - [HAproxy](#haproxy)
+  - [Run and init](#run-and-init)
+
 ## Requirements
-* run with java 11 minimum
+
+- run with java 11 minimum
+
 ## How to install
 
-* customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
-* run `./gradlew tomcatInstall` to
-  *  unzip tomcat from offical sources
-  *  deploy custom conf from `etc/tomcat/` - this task call the `tomcatConfig` task that could be used for deploying only a new tomcat conf on an existing tomcat
-  *  copy karuta backend and filserver config from `etc/karuta/` into `$PROJECT_HOME` path.
-     * the default path use `$CATALINA_BASE` if set, or `server.base` property from `build.properties`
-     * this variable will be overriden by `$KARUTA_HOME` if set
-     * if no `$KARUTA_HOME` is set, this can be overriden by `project.home` property from `build.properties` or passed in argument of all gradle commands
-     * WARNING:  `etc/karuta/` path is defined from `appName` property into `gradle.properties`, don't modify it !
-* run `./gradlew tomcatDeploy --refresh-dependencies` will deploy on tomcat webapps directory
-  * `psi-probe` for tomcat overview and management
-  * `karuta-backend`
-  * `karuta-fileserver`
-  * `karuta-frontend` (on `karuta`)
-* run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
-* customize your jvm env with a such configuration example to adapt:
+- customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
+- run `./gradlew tomcatInstall` to
+  - unzip tomcat from offical sources
+  - deploy custom conf from `etc/tomcat/` - this task call the `tomcatConfig` task that could be used for deploying only a new tomcat conf on an existing tomcat
+  - copy karuta backend and filserver config from `etc/karuta/` into `$PROJECT_HOME` path.
+    - the default path use `$CATALINA_BASE` if set, or `server.base` property from `build.properties`
+    - this variable will be overriden by `$KARUTA_HOME` if set
+    - if no `$KARUTA_HOME` is set, this can be overriden by `project.home` property from `build.properties` or passed in argument of all gradle commands
+    - WARNING:  `etc/karuta/` path is defined from `appName` property into `gradle.properties`, don't modify it !
+- run `./gradlew tomcatDeploy --refresh-dependencies` will deploy on tomcat webapps directory
+  - `psi-probe` for tomcat overview and management
+  - `karuta-backend`
+  - `karuta-fileserver`
+  - `karuta-frontend` (on `karuta`)
+- run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
+- customize your jvm env with a such configuration example to adapt:
 
-```
+```shell
   # check user environment variable is set or replace the user name
   export CATALINA_HOME=/opt/${USER}/tomcat
   export CATALINA_BASE=/opt/${USER}/tomcat
@@ -45,25 +58,27 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
   # export JPDA_TRANSPORT=dt_socket
 
 ```
+
 you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
 NOTE 1: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
 NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement variable to customize the folder where log reports will be produced.
 
+## Database init
 
-## Database init:
-  **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example**
+**The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example.**
 
 NB: The database should be tuned with this conf:
-* create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
-* edit and add the content
+
+- create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
+- edit and add the content
+
 ```conf
 [mariadb]
 tmp_memory_table_size=2G
 max_heap_table_size=2G
 ```
-
 
 Following provide all commands that you should run from the project (it's an example on what can be done):
 
@@ -75,16 +90,17 @@ Following provide all commands that you should run from the project (it's an exa
 
 most important file to watch on is `etc/tomcat/server.xml`
 
-* the connector configured by default is for proxy HTTP and not for AJP
-* you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
-* accesslog valve is configured for a HAproxy frontend
+- the connector configured by default is for proxy HTTP and not for AJP
+- you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
+- accesslog valve is configured for a HAproxy frontend
 
 ## Reverse proxy configuration
 
 WARNING: don't expose to the public the `/karuta-fileserver` context.
 
 Following example of proxy http configurations on a frontal server
-* apache
+
+### apache
 
 ```apache
 <VirtualHost *:443>
@@ -104,7 +120,8 @@ Following example of proxy http configurations on a frontal server
 </VirtualHost>
 ```
 
-* HAproxy
+### HAproxy
+
 ```
 frontend https-in
   bind PUBLIC_IP ssl .....
