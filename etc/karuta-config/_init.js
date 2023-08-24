@@ -5,7 +5,7 @@ var serverBCK = "../../../karuta-backend"+bckname; // backend
 var serverBCK_API = "../../../karuta-backend"+bckname+"/rest/api";
 var cas_url = "";
 // to hide local auth imputs part set localLogin to false
- var localLogin = true;
+ var localLogin = false;
 //-------- LANGUAGES------------
 var languages = [];
 languages [0] = 'fr';
