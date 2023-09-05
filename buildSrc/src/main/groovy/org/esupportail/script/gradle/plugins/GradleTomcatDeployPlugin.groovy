@@ -32,7 +32,7 @@ class GradleTomcatDeployPlugin implements Plugin<Project> {
                 File deployDir = new File (serverWebapps, "${project.name}")
                 logger.lifecycle("Deploying assembled application to servlet container at location:  ${deployDir}")
 
-                File warFile = new File("${project.buildDir}/libs/${project.name}.war")
+                File warFile = new File("${project.buildDir}/libs/${project.war.archiveName}")
 
                 project.copy {
                     with project.copySpec {

@@ -3,7 +3,7 @@ dependencies {
 }
 
 war {
-    archiveFileName='psi-probe.war'
+    archiveName='psi-probe.war'
 
     classpath = classpath.files
 }

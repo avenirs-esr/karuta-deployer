@@ -3,7 +3,7 @@ dependencies {
 }
 
 war {
-    archiveFileName='karuta-fileserver.war'
+    archiveName='karuta-fileserver.war'
 
     classpath = classpath.files
 
