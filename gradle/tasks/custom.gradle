@@ -35,12 +35,14 @@ task deployKarutaConfig() {
             if (!appliName.equals(appName)){
                 Path target = Paths.get("${serverWebapps}","${appName}");
                 Path link = Paths.get("${serverWebapps}","${appliName}");
-                if (Files.exists(link)) {
+                if (Files.exists(link) && Files.isSymbolicLink(link)) {
                     logger.lifecycle("Removing ${link}")
                     Files.delete(link);
                 }
-                logger.lifecycle("Creating ${link} symlink from ${target}")
-                Files.createSymbolicLink(link, target);
+                if (!Files.exists(link)) {
+                    logger.lifecycle("Creating ${link} symlink from ${target}")
+                    Files.createSymbolicLink(link, target);
+                }
             }
         }
     }
