@@ -6,6 +6,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 - [karuta-deployer](#karuta-deployer)
   - [Requirements](#requirements)
   - [How to install](#how-to-install)
+    - [Deployment](#deployment)
     - [Database init](#database-init)
     - [Tomcat configuration](#tomcat-configuration)
     - [Reverse proxy configuration](#reverse-proxy-configuration)
@@ -18,7 +19,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
 ## Requirements
 
-- run with java 11 minimum
+**run with java 11 minimum**
 
 ## How to install
 
@@ -64,20 +65,20 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
 ```
 
-you can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
+You can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
-NOTE 1: you can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
+NOTE 1: You can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
-NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement variable to customize the folder where log reports will be produced.
+NOTE 2: You can set `KARUTA_REPORT_FOLDER` environnement variable to customize the folder where log reports will be produced.
 
 ### Database init
 
 **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example.**
 
 NB: The database should be tuned with this conf:
-
-- create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
-- edit and add the content
+  
+  - create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
+  - edit and add the content
 
 ```conf
 [mariadb]
@@ -93,11 +94,10 @@ Following provide all commands that you should run from the project (it's an exa
 
 ### Tomcat configuration
 
-most important file to watch on is `etc/tomcat/server.xml`
-
-- the connector configured by default is for proxy HTTP and not for AJP
-- you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
-- accesslog valve is configured for a HAproxy frontend
+Most important file to watch on is `etc/tomcat/server.xml`:
+  - the connector configured by default is for proxy HTTP and not for AJP
+  - you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
+  - accesslog valve is configured for a HAproxy frontend
 
 ### Reverse proxy configuration
 
