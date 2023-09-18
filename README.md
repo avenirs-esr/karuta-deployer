@@ -6,13 +6,15 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 - [karuta-deployer](#karuta-deployer)
   - [Requirements](#requirements)
   - [How to install](#how-to-install)
-  - [Database init](#database-init)
-  - [Database Migration](#database-migration)
-  - [Tomcat configuration](#tomcat-configuration)
-  - [Reverse proxy configuration](#reverse-proxy-configuration)
-    - [apache](#apache)
-    - [HAproxy](#haproxy)
-  - [Run and init](#run-and-init)
+    - [Database init](#database-init)
+    - [Tomcat configuration](#tomcat-configuration)
+    - [Reverse proxy configuration](#reverse-proxy-configuration)
+      - [Apache](#apache)
+      - [HAproxy](#haproxy)
+    - [Run and init](#run-and-init)
+  - [Upgrades](#upgrades)
+    - [General case](#general-case)
+    - [Database Migration](#database-migration)
 
 ## Requirements
 
@@ -89,12 +91,6 @@ Following provide all commands that you should run from the project (it's an exa
 2. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend.sql`
 3. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
 
-### Database Migration
-
-**Before any update, you should consider to make a database dump to keep a backup**
-
-- When migrating from kapc1.2 or 1.3 to 1.3.5 or later, apply `ALTER TABLE vector_table MODIFY COLUMN a5 VARCHAR(5000) NOT NULL;`
-
 ### Tomcat configuration
 
 most important file to watch on is `etc/tomcat/server.xml`
@@ -165,6 +161,8 @@ Connect to the Karuta app and import the ZIP files that are into `etc/model/` in
 
 **Before any upgrade, consider to have a backup of the database and the fileserver data (path from $KARUTA_HOME/karuta-fileserver_data/)**
 
+### General case
+
 For most case you should only do some git command updates to upgrade the karuta-deployer which permit to upgrade all karuta's apps. But see all docs indicated, or watch around commit change on this project for more actions during upgrade process.
 
 ```shell
@@ -174,3 +172,8 @@ git pull
 ./gradlew tomcatDeploy
 ./gradlew deployKarutaConfig
 ```
+
+### Database Migration
+
+- When migrating from kapc1.2 or 1.3.x, apply `ALTER TABLE vector_table MODIFY COLUMN a5 VARCHAR(5000) NOT NULL;`
+
