@@ -20,6 +20,8 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
 ## How to install
 
+### Deployment
+
 - customize tomcat path install `cp build.properties.sample build.properties` and edit `build.properties`
 - run `./gradlew tomcatInstall` to
   - unzip tomcat from offical sources
@@ -66,7 +68,7 @@ NOTE 1: you can have a git repository to manage `karuta-backend_config` and `kar
 
 NOTE 2: you can set `KARUTA_REPORT_FOLDER` environnement variable to customize the folder where log reports will be produced.
 
-## Database init
+### Database init
 
 **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example.**
 
@@ -87,11 +89,13 @@ Following provide all commands that you should run from the project (it's an exa
 2. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/karuta-backend.sql`
 3. `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
 
-## Database Migration
+### Database Migration
+
+**Before any update, you should consider to make a database dump to keep a backup**
 
 - When migrating from kapc1.2 or 1.3 to 1.3.5 or later, apply `ALTER TABLE vector_table MODIFY COLUMN a5 VARCHAR(5000) NOT NULL;`
 
-## Tomcat configuration
+### Tomcat configuration
 
 most important file to watch on is `etc/tomcat/server.xml`
 
@@ -99,13 +103,13 @@ most important file to watch on is `etc/tomcat/server.xml`
 - you can set the `<resource></resource>` to use a secured, managed, monitored from jmx JDBC pool. The default conf is nearly a good one for production
 - accesslog valve is configured for a HAproxy frontend
 
-## Reverse proxy configuration
+### Reverse proxy configuration
 
 WARNING: don't expose to the public the `/karuta-fileserver` context.
 
 Following example of proxy http configurations on a frontal server
 
-### apache
+#### Apache
 
 ```apache
 <VirtualHost *:443>
@@ -151,8 +155,22 @@ backend bk_karuta
     server karuta AN_IP:8080
 ```
 
-## Run and init
+### Run and init
 
 `./gradlew tomcatStart`
 
-Connect to the Karuta app and import the ZIP files that are into `etc/model/` in the order of file names.
+Connect to the Karuta app and import the ZIP files that are into `etc/model/` in the order of file names (a number provide the order to import).
+
+## Upgrades
+
+**Before any upgrade, consider to have a backup of the database and the fileserver data (path from $KARUTA_HOME/karuta-fileserver_data/)**
+
+For most case you should only do some git command updates to upgrade the karuta-deployer which permit to upgrade all karuta's apps. But see all docs indicated, or watch around commit change on this project for more actions during upgrade process.
+
+```shell
+git pull
+# watch all files properties for changes (_init.js, configKaruta.properties)
+./gradlew tomcatInstall
+./gradlew tomcatDeploy
+./gradlew deployKarutaConfig
+```
