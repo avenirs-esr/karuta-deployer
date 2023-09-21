@@ -176,6 +176,6 @@ git pull
 ### Database Migration
 
 - When migrating from kapc1.2 or 1.3.x, apply :
-  - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} -e "ALTER TABLE vector_table MODIFY COLUMN a5 VARCHAR(5000) NOT NULL;"`
+  - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} -e "DROP TABLE vector_table;"`
   - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
 
