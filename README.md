@@ -159,14 +159,16 @@ Connect to the Karuta app and import the ZIP files that are into `etc/model/` in
 
 ## Upgrades
 
-**Before any upgrade, consider to have a backup of the database and the fileserver data (path from $KARUTA_HOME/karuta-fileserver_data/)**
+**Before any upgrade, consider to make:**
+1. a dump of the database
+2. a backup of the fileserver data (path from $KARUTA_HOME/karuta-fileserver_data/)
 
 ### General case
 
 For most case you should only do some git command updates to upgrade the karuta-deployer which permit to upgrade all karuta's apps. But see all docs indicated, or watch around commit change on this project for more actions during upgrade process.
 
 ```shell
-git pull
+git pull #(maybe git stash && git pull && git stash --apply)
 # watch all files properties for changes (_init.js, configKaruta.properties)
 ./gradlew tomcatInstall
 ./gradlew tomcatDeploy
