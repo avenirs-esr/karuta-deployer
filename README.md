@@ -76,7 +76,7 @@ NOTE 2: You can set `KARUTA_REPORT_FOLDER` environnement variable to customize t
 **The database should be created first with required grants for the server where is deployed Karuta. For that you can use the sql script etc/database/karuta-account.sql as example.**
 
 NB: The database should be tuned with this conf:
-  
+
   - create custom file for mariadb 10.5 on debian 11 like `/etc/mysql/mariadb.conf.d/51-custom.cnf`
   - edit and add the content
 
@@ -181,3 +181,5 @@ git pull #(maybe git stash && git pull && git stash --apply)
   - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} -e "DROP TABLE vector_table;"`
   - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
 
+- When migrating from kapc 1.3, apply also such change on database:
+  - make dump of database, apply `sed -e 's/^) ENGINE=MyISAM/) ENGINE=InnoDB/'` on file and import dump - warning fonctions (routines) should be dumped too, or you will need to import `etc/database/karuta-backend-func.sql`
