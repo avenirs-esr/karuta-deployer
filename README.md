@@ -12,6 +12,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
     - [Reverse proxy configuration](#reverse-proxy-configuration)
       - [Apache](#apache)
       - [HAproxy](#haproxy)
+      - [NGINX](#nginx)
     - [Run and init](#run-and-init)
   - [Upgrades](#upgrades)
     - [General case](#general-case)
@@ -125,7 +126,7 @@ Following example of proxy http configurations on a frontal server
 </VirtualHost>
 ```
 
-### HAproxy
+#### HAproxy
 
 ```
 frontend https-in
@@ -149,6 +150,46 @@ backend bk_karuta
     http-request set-header X-Forwarded-Port %[dst_port]
 
     server karuta AN_IP:8080
+```
+
+#### NGINX
+
+```
+server {
+   server_name URL_KARUTA;
+   listen 443 ssl;
+   listen [::]:443 ssl;
+
+    ...
+   # SSL stuff and other things
+    ...
+
+   # etc...  
+
+   #
+   #Proxy headers
+   proxy_set_header Host $http_host;
+   proxy_set_header X-Real-IP $remote_addr;
+   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   proxy_pass_header Content-type;
+
+   #
+   # Le proxy
+   #
+   location /karuta {
+   proxy_pass http://IP_VM:8080/karuta/;
+   }
+   location /karuta-backend {
+   proxy_pass http://IP_VM:8080/karuta-backend;
+   }
+   location /karuta-config {
+   proxy_pass http://IP_VM:8080/karuta-config;
+   }
+
+   ... etc ...
+  
+}
 ```
 
 ### Run and init
