@@ -18,6 +18,8 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
     - [General case](#general-case)
     - [Database Migration](#database-migration)
 
+**Example of detailed install step-by-step for kapc 1.3.5: https://gist.github.com/jgribonvald/7ca25ce8eb24ba7d48e7b766daea0c40**
+
 ## Requirements
 
 **run with java 11 minimum**
