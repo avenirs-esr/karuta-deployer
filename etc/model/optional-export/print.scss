@@ -1,0 +1,37 @@
+/*
+* Fichier CSS injecté permettant de gérer les styles d'impression. Il a pour effet (uniquement lorsqu'on lance l'impression de la page) de :
+* - Réduire les marges à seulement 0.5cm de chaque coté
+* - Réduire la taille de la police d'écriture à seulement 110%
+* - Enlever certains icônes qui ne l'étaient pas encore
+* - Mieux gérer la parties "Evaluations" en répartissant sur deux lignes et deux colonnes
+* - Mieux gérer la liste des traces en fixant les problèmes de mots qui dépassent des blocs
+*/
+
+@media print {
+
+	@page {
+		margin: .5cm .5cm;
+	}
+
+	#main-container {font-size:110% !important;}
+
+    .fa-question-circle,
+    .fa-minus,
+    .fa-plus,
+    .fa-binoculars {
+		display:none !important;
+	}
+
+    .auto-evaluation,
+    .evaluation-enseignant,
+    .evaluation-tuteur,
+    .evaluation-pair {
+        flex: 0 0 calc((100% - 45px) / 2);
+        max-width: 50%;
+    }
+
+	a {
+		word-break: break-all;
+	}
+
+}
