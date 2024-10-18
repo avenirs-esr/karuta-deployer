@@ -5,7 +5,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
 **[For installation and migration details please read the documentation on the wiki](https://github.com/avenirs-esr/karuta-deployer/wiki)**
 
-Following are only additional informations for the project
+**Following are only additional informations for the project !**
 - [karuta-deployer](#karuta-deployer)
   - [Requirements](#requirements)
   - [How to install](#how-to-install)
