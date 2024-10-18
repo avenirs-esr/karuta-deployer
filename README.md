@@ -91,27 +91,6 @@ You should set a proxy http configurations on a frontal server
 
 Connect to the Karuta app and import the ZIP files that are into `etc/model/` in the order of file names (a number provide the order to import).
 
-## Optional: Exporting some pages as a PDF file and traces as a ZIP file
-
-You can also import two optional files (JS and CSS) from the `etc/model/optional-export/` folder. These files are used to enable the printing functionality of certain pages and the export of traces into a ZIP file.
-This allows you to print (or export to PDF):
-
-- Each page in "Mes formations actuelles et leurs référentiels"
-- Each page in "Mes formations passées"
-- Each page in "Mon référentiel de compétences personnalisées"
-- The page "Mes traces"
-- Each page in "Mes SAé"
-- Each page in "Mes stages et alternances"
-- Each page in "Mes autres actions"
-- The page "Tableau de bord de mes compétences par formation"
-- The page "Tableau de bord compétences personnalisées"
-- Each page of "Compétences personnalisées (partie Bilan)"
-- Each page of "Bilans par compétences de la formation"
-
-This also allows you to export all the traces on the "Mes traces" page into a ZIP file. The name of the ZIP archive can be configured with the `exportTraceZipPrefix` property.
-
-To inject the files, you need to import the print.js file into `KARUTA-Configuration > KARUTA - CONFIGURATION - TECH > Fichiers Javascript > Ajouter un fichier JS`, then follow the same principle for the print.scss file by going to the `Instructions CSS et fichiers CSS` section.
-
 ## Upgrades
 
 **Before any upgrade, consider to make:**
