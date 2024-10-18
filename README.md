@@ -3,6 +3,9 @@
 gradle-war-deployer for karuta
 embed deployed app on tomcat, like the tomcat-manager, psi-probe
 
+**[The documentation for installation and migration details please read the wiki](https://github.com/avenirs-esr/karuta-deployer/wiki)**
+
+Following are only additional informations for the project
 - [karuta-deployer](#karuta-deployer)
   - [Requirements](#requirements)
   - [How to install](#how-to-install)
@@ -10,15 +13,11 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
     - [Database init](#database-init)
     - [Tomcat configuration](#tomcat-configuration)
     - [Reverse proxy configuration](#reverse-proxy-configuration)
-      - [Apache](#apache)
-      - [HAproxy](#haproxy)
-      - [NGINX](#nginx)
     - [Run and init](#run-and-init)
+  - [Optional: Exporting some pages as a PDF file and traces as a ZIP file](#optional-exporting-some-pages-as-a-pdf-file-and-traces-as-a-zip-file)
   - [Upgrades](#upgrades)
     - [General case](#general-case)
     - [Database Migration](#database-migration)
-
-**[Example of detailed install step-by-step for kapc 1.4.0](https://gist.github.com/jgribonvald/179c3a64f0eaa6682a4817e0f9713490)**
 
 ## Requirements
 
@@ -45,30 +44,9 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 - run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
 - customize your jvm env with a such configuration example to adapt:
 
-```shell
-  # check user environment variable is set or replace the user name
-  export CATALINA_HOME=/opt/${USER}/tomcat
-  export CATALINA_BASE=/opt/${USER}/tomcat
-  export CATALINA_TMPDIR=$CATALINA_BASE/temp
-  export CATALINA_PID=/opt/${USER}/tomcat/karuta.pid
-  export KARUTA_HOME=$CATALINA_BASE/karuta
+** You should set jvm env variables **
 
-  export CATALINA_OPTS="$CATALINA_OPTS -server -Xms2G -Xmx6G -XX:+UseG1GC -XX:+PrintCommandLineFlags -XX:+PrintFlagsFinal"
-  export CATALINA_OPTS="$CATALINA_OPTS -Djava.net.preferIPv4Stack=true -Dnetworkaddress.cache.ttl=3600"
-  export CATALINA_OPTS="$CATALINA_OPTS -Djava.awt.headless=true -Dcom.sun.management.jmxremote -Dhttps.protocols=TLSv1.2,TLSv1.3"
-  export CATALINA_OPTS="$CATALINA_OPTS -Dhttp.agent=Java-Karuta"
-  export CATALINA_OPTS="$CATALINA_OPTS -Dserver.webapps=/opt/${USER}/webapps -Dserver.home=/opt/${USER}/tomcat"
-
-  # to enable JMX - must be modified depending on context
-  # export CATALINA_OPTS="$CATALINA_OPTS -Dcom.sun.management.jmxremote.port=7777 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
-
-  # to enable java remote debug
-  # export JPDA_ADDRESS=6665
-  # export JPDA_TRANSPORT=dt_socket
-
-```
-
-You can set this env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
+You can set the env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
 NOTE 1: You can have a git repository to manage `karuta-backend_config` and `karuta-fileserver_config`, or have a NFS shared directory for all *_config + fileserver_data on which you apply snapshot save.
 
@@ -104,95 +82,8 @@ Most important file to watch on is `etc/tomcat/server.xml`:
 
 ### Reverse proxy configuration
 
-WARNING: don't expose to the public the `/karuta-fileserver` context.
+You should set a proxy http configurations on a frontal server
 
-Following example of proxy http configurations on a frontal server
-
-#### Apache
-
-```apache
-<VirtualHost *:443>
-    ...
-    # SSL stuff
-    ...
-    # required arguments for proxying app
-    RequestHeader set X-Forwarded-Proto "https"
-    RequestHeader set X-Forwarded-Port "443"
-    ProxyPreserveHost On
-
-    ProxyPass /karuta/ http://an_ip:8080/karuta/
-    ProxyPass /karuta-backend http://an_ip:8080/karuta-backend
-    ProxyPass /karuta-config http://an_ip:8080/karuta-config
-    # not needed expect for redirecting from inside
-    #ProxyPassReverse / http://an_ip:8080/
-</VirtualHost>
-```
-
-#### HAproxy
-
-```
-frontend https-in
-  bind PUBLIC_IP ssl .....
-
-...
-  acl acl_uri_karuta path -i /karuta
-  acl acl_uri_karuta path_beg -i /karuta/ /karuta-backend/ /karuta-config/
-...
-  use_backend bk_karuta if acl_uri_karuta
-
-
-
-backend bk_karuta
-
-    option forwardfor
-
-    redirect scheme https code 301 if !{ ssl_fc }
-
-    http-request set-header X-Forwarded-Proto https if { ssl_fc }
-    http-request set-header X-Forwarded-Port %[dst_port]
-
-    server karuta AN_IP:8080
-```
-
-#### NGINX
-
-```
-server {
-   server_name URL_KARUTA;
-   listen 443 ssl;
-   listen [::]:443 ssl;
-
-    ...
-   # SSL stuff and other things
-    ...
-
-   # etc...  
-
-   #
-   #Proxy headers
-   proxy_set_header Host $http_host;
-   proxy_set_header X-Real-IP $remote_addr;
-   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-   proxy_set_header X-Forwarded-Proto $scheme;
-   proxy_pass_header Content-type;
-
-   #
-   # Le proxy
-   #
-   location /karuta {
-   proxy_pass http://IP_VM:8080/karuta/;
-   }
-   location /karuta-backend {
-   proxy_pass http://IP_VM:8080/karuta-backend;
-   }
-   location /karuta-config {
-   proxy_pass http://IP_VM:8080/karuta-config;
-   }
-
-   ... etc ...
-  
-}
-```
 
 ### Run and init
 
@@ -200,7 +91,7 @@ server {
 
 Connect to the Karuta app and import the ZIP files that are into `etc/model/` in the order of file names (a number provide the order to import).
 
-#### Optional: Exporting some pages as a PDF file and traces as a ZIP file
+## Optional: Exporting some pages as a PDF file and traces as a ZIP file
 
 You can also import two optional files (JS and CSS) from the `etc/model/optional-export/` folder. These files are used to enable the printing functionality of certain pages and the export of traces into a ZIP file.
 This allows you to print (or export to PDF):
@@ -232,7 +123,12 @@ To inject the files, you need to import the print.js file into `KARUTA-Configura
 For most case you should only do some git command updates to upgrade the karuta-deployer which permit to upgrade all karuta's apps. But see all docs indicated, or watch around commit change on this project for more actions during upgrade process.
 
 ```shell
-git pull #(maybe git stash && git pull && git stash --apply)
+# save local change and sync remote repositories
+git stash && git fetch --all
+# Checkout the version of your choice
+git checkout -b v1.0.8 v1.0.8 
+# re-apply local changes
+git stash --apply
 # watch all files properties for changes (_init.js, configKaruta.properties)
 ./gradlew tomcatInstall
 ./gradlew tomcatDeploy
