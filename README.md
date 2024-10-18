@@ -14,7 +14,6 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
     - [Tomcat configuration](#tomcat-configuration)
     - [Reverse proxy configuration](#reverse-proxy-configuration)
     - [Run and init](#run-and-init)
-  - [Optional: Exporting some pages as a PDF file and traces as a ZIP file](#optional-exporting-some-pages-as-a-pdf-file-and-traces-as-a-zip-file)
   - [Upgrades](#upgrades)
     - [General case](#general-case)
     - [Database Migration](#database-migration)
