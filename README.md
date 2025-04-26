@@ -118,6 +118,3 @@ git stash --apply
 - When migrating from kapc1.2 or 1.3.x, apply :
   - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} -e "DROP TABLE vector_table;"`
   - `mysql -h${sql.server.host} -u ${user} -p ${password} ${database} < etc/database/report-helper.sql`
-
-- ~~When migrating from kapc 1.3, apply also such change on database:~~
-  - ~~make dump of database, apply `sed -e 's/^) ENGINE=MyISAM/) ENGINE=InnoDB/'` on file and import dump - warning fonctions (routines) should be dumped too, or you will need to import `etc/database/karuta-backend-func.sql`~~
