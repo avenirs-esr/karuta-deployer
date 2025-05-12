@@ -43,7 +43,7 @@ embed deployed app on tomcat, like the tomcat-manager, psi-probe
 - run `./gradlew deployKarutaConfig` to deploy into tomcat webapps the `karuta-config` webapp from `etc/karuta-config/`
 - customize your jvm env with a such configuration example to adapt:
 
-** You should set jvm env variables **
+**You should set jvm env variables**
 
 You can set the env conf into the `${karutaDeployerPath}/etc/tomcat/bin/setenv.sh` or in your script runing the tomcat start command.
 
